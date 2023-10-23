@@ -1,4 +1,4 @@
-import React, { useState, useMemo} from 'react';
+import React, { useState, useMemo, useEffect} from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
@@ -16,13 +16,33 @@ const App = () => {
     return `${minutes}:${seconds}`;
   }, [time]);
 
+  const playBell = () => {
+    const bell = new Audio('./sounds/bell.wav');
+    bell.play();
+  };
+
   const startTimer = () => {
     setTime(1200);
     setStatus('work');
     setTimer(setInterval(() => {
-      setTime(time => time - 1);
+      setTime(time => {
+        if (time === 1) {
+          if (status === 'work') {
+            setStatus('rest');
+            setTime(20);
+            playBell();
+          } else {
+            setStatus('work');
+            setTime(1200);
+            playBell();
+          }
+        } else {
+          return time - 1;
+        }
+      });
     }, 1000));
-};
+  };
+  
 
 const stopTimer = () => {
   setTimer(null);
@@ -34,6 +54,7 @@ const stopTimer = () => {
 const closeApp = () => {
   window.close()
 };
+
 
   return (
     <div>
