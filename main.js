@@ -4,6 +4,7 @@ const path = require('path');
 const { app, BrowserWindow } = require('electron');
 
 function main() {
+  
 
   // create new window
   let mainWindow = new BrowserWindow({
@@ -17,6 +18,8 @@ function main() {
 
   // load app/index.html as the window content
   mainWindow.loadFile(path.join('app', 'index.html'));
+
+  mainWindow.webContents.openDevTools();
 }
 
 app.on('ready', main);
