@@ -7,6 +7,14 @@ const App = () => {
   const [time, setTime] = useState(null);
   const [timer, setTimer] = useState(null);
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const formattedTime = useMemo(() => formatTime(time), [time]);
+
   return (
     <div>
       <h1>Protect your eyes</h1>
@@ -20,7 +28,7 @@ const App = () => {
       {status === 'rest' && (<img src="./images/rest.png" />)}
       {status !== 'off' && (
       <div className="timer">
-        18:23
+        {formattedTime}
       </div>
       )}
       {status === 'off' && (<button className="btn">Start</button>)}
